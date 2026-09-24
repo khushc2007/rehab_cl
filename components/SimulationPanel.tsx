@@ -7,8 +7,8 @@ const Tg=({l,on,set}:any)=><button onClick={()=>set(!on)} className="flex items-
 export default function SimulationPanel(){
  const [open,setOpen]=useState(false),{sim,simMode,set,setSim}=useHand(),setF=(i:number,v:number)=>setSim({f:sim.f.map((a,j)=>j===i?v:a),preset:'',auto:false})
  const btn=(on:boolean)=>`h-6 px-2 text-[9pt] font-mono bg-[#161616] border ${on?'border-[#0F6E5E] text-[#0F6E5E]':'border-[#2a2a2a] text-[#555]'}`
- return <><button aria-label="Toggle simulation panel" onClick={()=>setOpen(!open)} className="fixed bottom-1 left-1 w-[18px] h-[18px] text-[#222] hover:text-[#333] z-[60] leading-none">⌥</button>
- <motion.div initial={false} animate={{height:open?240:0,opacity:open?1:0}} transition={{duration:.3,ease:'easeInOut'}} className="fixed bottom-0 inset-x-0 z-50 bg-[#0d0d0d] border-t border-[#1f1f1f] overflow-y-auto" style={{pointerEvents:open?'auto':'none'}}>
+ return <><button aria-label="Toggle simulation panel" onClick={()=>setOpen(!open)} className="fixed bottom-1 left-[56px] w-[18px] h-[18px] text-[#222] hover:text-[#333] z-[60] leading-none">⌥</button>
+ <motion.div initial={false} animate={{height:open?240:0,opacity:open?1:0}} transition={{duration:.3,ease:'easeInOut'}} className="fixed bottom-0 left-[52px] right-0 z-50 bg-[#0d0d0d] border-t border-[#1f1f1f] overflow-y-auto" style={{pointerEvents:open?'auto':'none'}}>
   <div className="px-6 py-4"><div className="flex items-center gap-4 mb-3"><span className="text-[9pt] font-mono text-[#333]">SIMULATION</span><Tg l="SIM MODE" on={simMode} set={(v:boolean)=>set({simMode:v})}/></div>
   <div className="grid grid-cols-2 gap-x-10 gap-y-1">
    <div className="space-y-1"><Sl l="ALL" v={Math.round(sim.f[0])} min={0} max={90} on={(v:number)=>setSim({f:[v,v,v,v,v],preset:'',auto:false})}/>

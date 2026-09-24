@@ -1,4 +1,2 @@
-'use client'
-import dynamic from 'next/dynamic'
-const S=dynamic(()=>import('@/components/SessionPage'),{ssr:false})
-export default function P(){return <S/>}
+import {redirect} from 'next/navigation'
+export default function P(){redirect('/session')}
