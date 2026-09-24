@@ -152,7 +152,7 @@ export default function HistoryPage() {
         <div className="bg-[#161616] rounded-xl border border-[#1f1f1f] p-5">
           <div className="text-[9px] font-mono uppercase tracking-widest text-[#555555] mb-4">PROGRESS TREND — LAST 5 SESSIONS</div>
 
-          <svg viewBox="0 0 600 180" className="w-full" onMouseMove={handleChartHover} onMouseLeave={handleChartLeave}>
+          <svg viewBox="0 0 600 180" className="w-full" onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); const x = ((e.clientX - r.left) / r.width) * 600; handleChartHover(e, Math.max(0, Math.min(DATES.length - 1, Math.round((x - 30) / 75)))) }} onMouseLeave={handleChartLeave}>
             <rect width="600" height="180" fill="#0d0d0d" rx="4" />
 
             {/* Grid */}
