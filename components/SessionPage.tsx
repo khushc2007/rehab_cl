@@ -2,6 +2,8 @@ import {useEffect,useRef,useState} from 'react'
 import HandScene from './hand/HandScene'
 import MetricsPanel,{EXERCISES,Mode,Ex} from './MetricsPanel'
 import SimulationPanel from './SimulationPanel'
+import Link from 'next/link'
+import {autoFrame} from '@/lib/simExercises'
 import {useWebSocket} from '@/hooks/useWebSocket'
 import {useRepDetection} from '@/hooks/useRepDetection'
 import {useHand,sensorRef} from '@/store/handStore'
@@ -22,14 +24,13 @@ export default function SessionPage(){
    if(mr.current!=='active'||b.length<15)return
    const d=b.slice(1).map((x,i)=>Math.abs(x-b[i])).sort((x,y)=>x-y)
    if(d[7]/.954>4&&avg(f.slice(0,4))>50)trem(true)},50);return()=>clearInterval(id)},[])
- useEffect(()=>{let raf=0
+  useEffect(()=>{let raf=0
   const loop=()=>{const st=useHand.getState()
-   if(st.simMode){const s=st.sim,now=Date.now();let f=s.f.slice()
-    if(s.auto){const v=((now/2000)|0)%3?75:0;f=[v,v,v,v,v*.4]}
+   if(st.simMode){const s=st.sim,now=Date.now();let f=s.f.slice(),e=Math.max(s.emg,avg(f.slice(0,4))/90*70),pitch=s.pitch
+    if(s.auto){const r=autoFrame(s.preset||'FINGER_FLEXION',now/1000);f=r.f;e=r.emg;pitch=r.pitch} // no preset -> flexion cycle
     const n=()=>s.noiseOn?Math.sin(now/200)*s.noise*.5+(Math.random()-.5)*s.noise:0
-    f=f.map(a=>Math.max(0,Math.min(90,a+n())))
-    sensorRef.current={t:now,f,e:Math.min(100,Math.max(s.emg,avg(f.slice(0,4))/90*70)+n()*2),roll:s.roll+(s.preset==='WAVE'?Math.sin(now/400)*25:0),pitch:s.pitch,yaw:s.yaw,bat:100}}
+    sensorRef.current={t:now,f:f.map(v=>Math.max(0,Math.min(90,v+n()))),e:Math.max(0,Math.min(100,e+n()*2)),roll:s.roll,pitch,yaw:s.yaw,bat:100}}
    raf=requestAnimationFrame(loop)}
   raf=requestAnimationFrame(loop);return()=>cancelAnimationFrame(raf)},[])
- return <div className="h-full w-full overflow-hidden bg-[#0a0a0a] flex"><div className="w-[70%] h-full"><HandScene/></div>
+ return <div className="h-full w-full overflow-hidden bg-[#0a0a0a] flex"><div className="w-[70%] h-full relative"><HandScene/><Link href="/analytics" className="absolute top-4 left-24 font-mono text-[9pt] text-[#555] hover:text-[#0F6E5E]">← EXIT</Link></div>
   <MetricsPanel mode={mode} sel={sel} onSelect={pick} onStart={start} onStop={stop} tremor={tremor}/><SimulationPanel/></div>}

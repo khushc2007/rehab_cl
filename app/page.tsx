@@ -1,2 +1,2 @@
 import {redirect} from 'next/navigation'
-export default function P(){redirect('/session')}
+export default function P(){redirect('/analytics')}
