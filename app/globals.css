@@ -1,0 +1,5 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+html,body{height:100%;margin:0;background:#0a0a0a;color:#f0f0f0;overflow:hidden}
+input.sl{-webkit-appearance:none;appearance:none;height:2px;background:#222;outline:none}
+input.sl::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;border-radius:50%;background:#0F6E5E;cursor:pointer}
+input.sl::-moz-range-thumb{width:9px;height:9px;border:0;border-radius:50%;background:#0F6E5E}
